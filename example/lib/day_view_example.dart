@@ -7,16 +7,17 @@ import 'utils/all.dart';
 
 @immutable
 class Event {
-  Event({
-    @required this.startMinuteOfDay,
-    @required this.duration,
-    @required this.title,
-  });
+  Event(
+      {@required this.startMinuteOfDay,
+      @required this.duration,
+      @required this.title,
+      this.isEventBlock = false});
 
   final int startMinuteOfDay;
   final int duration;
 
   final String title;
+  final bool isEventBlock;
 }
 
 List<Event> eventsOfDay0 = <Event>[
@@ -24,7 +25,16 @@ List<Event> eventsOfDay0 = <Event>[
   new Event(
       startMinuteOfDay: 6 * 60, duration: 2 * 60, title: "Morning Routine"),
   new Event(startMinuteOfDay: 6 * 60, duration: 60, title: "Eat Breakfast"),
-  new Event(startMinuteOfDay: 7 * 60, duration: 60, title: "Get Dressed"),
+  new Event(
+    startMinuteOfDay: 7 * 60,
+    duration: 30,
+    title: "Get test",
+  ),
+  new Event(
+      startMinuteOfDay: 7 * 60,
+      duration: 120,
+      title: "Get Dressed",
+      isEventBlock: true),
   new Event(
       startMinuteOfDay: 18 * 60, duration: 60, title: "Take Dog For A Walk"),
 ];
@@ -76,15 +86,16 @@ class _DayViewExampleState extends State<DayViewExample> {
     return events
         .map(
           (event) => new StartDurationItem(
-                startMinuteOfDay: event.startMinuteOfDay,
-                duration: event.duration,
-                builder: (context, itemPosition, itemSize) => _eventBuilder(
-                      context,
-                      itemPosition,
-                      itemSize,
-                      event,
-                    ),
-              ),
+            startMinuteOfDay: event.startMinuteOfDay,
+            duration: event.duration,
+            isEventBlock: event.isEventBlock,
+            builder: (context, itemPosition, itemSize) => _eventBuilder(
+              context,
+              itemPosition,
+              itemSize,
+              event,
+            ),
+          ),
         )
         .toList();
   }

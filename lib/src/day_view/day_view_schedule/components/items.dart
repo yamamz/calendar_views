@@ -14,6 +14,7 @@ typedef Positioned StartDurationItemBuilder(
 /// Item with [startMinuteOfDay] and [duration] that can be provided to some implementations of [ScheduleComponent].
 class StartDurationItem {
   StartDurationItem({
+    this.isEventBlock = false,
     @required this.startMinuteOfDay,
     @required this.duration,
     @required this.builder,
@@ -30,6 +31,7 @@ class StartDurationItem {
 
   /// Function that builds this item.
   final StartDurationItemBuilder builder;
+  final bool isEventBlock;
 }
 
 /// Signature for a function that builds a [TimeItem] to be displayed as child of [DayViewSchedule].

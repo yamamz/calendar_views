@@ -14,8 +14,17 @@ class ChainsEventArranger implements EventViewArranger {
   ) {
     // creates a new list with sortedEvents
     List<StartDurationItem> sortedEvents = <StartDurationItem>[];
-    sortedEvents.addAll(events);
+
+    List<StartDurationItem> filterEventBlocks =
+        events.where((element) => element.isEventBlock).toList();
+    List<StartDurationItem> filterEvents =
+        events.where((element) => !element.isEventBlock).toList();
+    sortedEvents.addAll(filterEvents);
     _sortEvents(sortedEvents);
+    _sortEvents(filterEventBlocks);
+    List<_Item> itemsBlocks = _makeItems(
+      filterEventBlocks,
+    );
 
     // makes all the items
     List<_Item> items = _makeItems(
@@ -41,18 +50,32 @@ class ChainsEventArranger implements EventViewArranger {
       }
     }
 
-    // converts items to [ArrangedEvent]s
-    return items
+    List<ArrangedEvent> eventsBlocks = itemsBlocks
         .map(
           (item) => new ArrangedEvent(
-                top: constraints.minuteOfDayFromTop(item.start),
-                left: item.leftPercentage * constraints.areaWidth,
-                width: item.widthPercentage * constraints.areaWidth,
-                height: constraints.heightOfDuration(item.duration),
-                event: item.event,
-              ),
+            top: constraints.minuteOfDayFromTop(item.start),
+            left: 0,
+            width: constraints.areaWidth,
+            height: constraints.heightOfDuration(item.duration),
+            event: item.event,
+          ),
         )
         .toList();
+
+    // converts items to [ArrangedEvent]s
+    List<ArrangedEvent> eventsMap = items
+        .map(
+          (item) => new ArrangedEvent(
+            top: constraints.minuteOfDayFromTop(item.start),
+            left: item.leftPercentage * constraints.areaWidth,
+            width: item.widthPercentage * constraints.areaWidth,
+            height: constraints.heightOfDuration(item.duration),
+            event: item.event,
+          ),
+        )
+        .toList();
+
+    return List.from(eventsBlocks)..addAll(eventsMap);
   }
 }
 

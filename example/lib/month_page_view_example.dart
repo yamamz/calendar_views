@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:calendar_views/month_page_view.dart';
 
-import 'utils/all.dart';
+import 'utils/all.dart' as all;
 
 class MonthPageViewExample extends StatefulWidget {
   @override
@@ -32,12 +32,12 @@ class _MonthPageViewExampleState extends State<MonthPageViewExample> {
     _pageSnapping = true;
     _reverse = false;
 
-    _displayedMonthText = yearAndMonthToString(initialMonth);
+    _displayedMonthText = all.yearAndMonthToString(initialMonth);
   }
 
   void _onMonthChanged(DateTime month) {
     setState(() {
-      _displayedMonthText = yearAndMonthToString(month);
+      _displayedMonthText = all.yearAndMonthToString(month);
     });
   }
 
@@ -93,9 +93,9 @@ class _MonthPageViewExampleState extends State<MonthPageViewExample> {
                       items: <Axis>[Axis.horizontal, Axis.vertical]
                           .map(
                             (axis) => new DropdownMenuItem<Axis>(
-                                  value: axis,
-                                  child: new Text("${axisToString(axis)}"),
-                                ),
+                              value: axis,
+                              child: new Text("${all.axisToString(axis)}"),
+                            ),
                           )
                           .toList(),
                       onChanged: (Axis value) {
@@ -103,7 +103,7 @@ class _MonthPageViewExampleState extends State<MonthPageViewExample> {
                           this._scrollDirection = value;
                         });
 
-                        showScrollDirectionChangeMightNotWorkDialog(
+                        all.showScrollDirectionChangeMightNotWorkDialog(
                           context: context,
                         );
                       },
@@ -139,7 +139,7 @@ class _MonthPageViewExampleState extends State<MonthPageViewExample> {
   }
 
   Widget _monthPageBuilder(BuildContext context, DateTime month) {
-    return new Page.forMonth(
+    return new all.Page.forMonth(
       month: month,
     );
   }

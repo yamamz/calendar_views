@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 
 import 'package:calendar_views/days_page_view.dart';
 
-import 'utils/all.dart';
+import 'utils/all.dart' as all;
 
 class DaysPageViewExample extends StatefulWidget {
   @override
@@ -44,13 +44,13 @@ class _DaysPageViewExampleState extends State<DaysPageViewExample> {
       context: context,
       barrierDismissible: false,
       builder: (context) => new _DaysPageControllerInitialisationDialog(
-            onConfirm: (controller) {
-              Navigator.of(context).pop();
-              setState(() {
-                _daysPageController = controller;
-              });
-            },
-          ),
+        onConfirm: (controller) {
+          Navigator.of(context).pop();
+          setState(() {
+            _daysPageController = controller;
+          });
+        },
+      ),
     );
 
     setState(() {
@@ -115,9 +115,9 @@ class _DaysPageViewExampleState extends State<DaysPageViewExample> {
                       items: <Axis>[Axis.horizontal, Axis.vertical]
                           .map(
                             (axis) => new DropdownMenuItem<Axis>(
-                                  value: axis,
-                                  child: new Text("${axisToString(axis)}"),
-                                ),
+                              value: axis,
+                              child: new Text("${all.axisToString(axis)}"),
+                            ),
                           )
                           .toList(),
                       onChanged: (Axis value) {
@@ -125,7 +125,7 @@ class _DaysPageViewExampleState extends State<DaysPageViewExample> {
                           this._scrollDirection = value;
                         });
 
-                        showScrollDirectionChangeMightNotWorkDialog(
+                        all.showScrollDirectionChangeMightNotWorkDialog(
                           context: context,
                         );
                       },
@@ -161,7 +161,7 @@ class _DaysPageViewExampleState extends State<DaysPageViewExample> {
   }
 
   Widget _daysPageBuilder(BuildContext context, List<DateTime> days) {
-    return new Page.forDays(
+    return new all.Page.forDays(
       days: days,
     );
   }
@@ -218,7 +218,7 @@ class _DaysPageControllerInitialisationDialogState
             new ListTile(
               title: new Text("First Day Of Initial Page"),
               trailing: new RaisedButton(
-                child: new Text("${dateToString(_firstDayOfInitialPage)}"),
+                child: new Text("${all.dateToString(_firstDayOfInitialPage)}"),
                 onPressed: () {
                   _changeFirstDayOfInitialPage();
                 },
